@@ -1,190 +1,204 @@
-// Canvas
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+class brickBreaker {
 
-// Balle
-var x = canvas.width/2;
-var y = canvas.height-30;
-var dx = 4;
-var dy = -4;
-var ballRadius = 10;
+	constructor () {
+		// Canvas
+		this.canvas = document.getElementById("myCanvas");
+		this.ctx = this.canvas.getContext("2d");
 
-// Paddle
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width-paddleWidth)/2;
-var rightPressed = false;
-var leftPressed = false;
+		// Balle
+		this.x = this.canvas.width/2;
+		this.y = this.canvas.height-30;
+		this.ballSpeed = 4;
+		this.dx = this.ballSpeed;
+		this.dy = -this.ballSpeed;
+		this.ballRadius = 10;
 
-// Briques
-var brickRowCount = 3;
-var brickColumnCount = 5;
-var brickWidth = 75;
-var brickHeight = 20;
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
+		// Paddle
+		this.paddleHeight = 10;
+		this.paddleWidth = 75;
+		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+		this.rightPressed = false;
+		this.leftPressed = false;
 
-var bricks = [];
-for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
-    }
-}
+		// Briques
+		this.brickRowCount = 3;
+		this.brickColumnCount = 5;
+		this.brickWidth = 75;
+		this.brickHeight = 20;
+		this.brickPadding = 10;
+		this.brickOffsetTop = 30;
+		this.brickOffsetLeft = 30;
 
-// Score
-var score = 0;
+		this.bricks = [];
+		for(var c=0; c<this.brickColumnCount; c++) {
+		    this.bricks[c] = [];
+		    for(var r=0; r<this.brickRowCount; r++) {
+		        this.bricks[c][r] = { x: 0, y: 0, status: 1 };
+		    }
+		}
 
-// Vies
-var lives = 3;
+		// Score
+		this.score = 0;
 
-// Évènements
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
+		// Vies
+		this.lives = 3;
 
-function keyDownHandler(e) {
-    if(e.keyCode == 39) {
-        rightPressed = true;
-    }
-    else if(e.keyCode == 37) {
-        leftPressed = true;
-    }
-}
+		// Évènements
+		document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
+		document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
+		document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false);
 
-function keyUpHandler(e) {
-    if(e.keyCode == 39) {
-        rightPressed = false;
-    }
-    else if(e.keyCode == 37) {
-        leftPressed = false;
-    }
-}
+		this.draw();
+	}
 
-function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > (0 + paddleWidth/2)  && relativeX < (canvas.width - paddleWidth/2)) {
-        paddleX = relativeX - paddleWidth/2;
-    }
-}
-
-// Détection des collisions
-function collisionDetection() {
-    for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
-            var b = bricks[c][r];
-            if (b.status == 1) {
-	            if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-	                dy = -dy;
-	                b.status = 0;
-	                score++;
-	                if(score == brickRowCount*brickColumnCount) {
-                        alert("YOU WIN, CONGRATULATIONS!");
-                        document.location.reload();
-                    }
-	            }
-            }
-        }
-    }
-}
-
-// Afficher le score
-function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: "+score, 8, 20);
-}
-
-// Affiche le nombre de vies
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
-}
-
-// Dessiner la balle
-function drawBall() {
-	ctx.beginPath();
-	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-	ctx.fillStyle = "#0095DD";
-	ctx.fill();
-	ctx.closePath();
-}
-
-// Dessiner le paddle
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-// Dessiner les briques
-function drawBricks() {
-    for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
-        	if (bricks[c][r].status == 1) {
-	        	var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-				var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-	            bricks[c][r].x = brickX;
-	            bricks[c][r].y = brickY;
-	            ctx.beginPath();
-	            ctx.rect(brickX, brickY, brickWidth, brickHeight);
-	            ctx.fillStyle = "#0095DD";
-	            ctx.fill();
-	            ctx.closePath();
-            }
-        }
-    }
-}
-
-// Dessiner
-function draw() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	drawBricks();
-	drawBall();
-	drawPaddle();
-	drawScore();
-	drawLives();
-	collisionDetection();
-
-	if(y + dy < ballRadius) {
-		dy = -dy;
-	} else if(y + dy > canvas.height-ballRadius) {
-		if(x > paddleX && x < paddleX + paddleWidth) {
-	        dy = -dy;
-	    } else {
-		    lives--;
-			if(!lives) {
-			    alert("GAME OVER");
-			    document.location.reload();
-			}
-			else {
-			    x = canvas.width/2;
-			    y = canvas.height-30;
-			    dx = 2;
-			    dy = -2;
-			    paddleX = (canvas.width-paddleWidth)/2;
-			}
+	// Touche enfoncé
+	keyDownHandler(e) {
+	    if(e.keyCode == 39) {
+	        this.rightPressed = true;
+	    }
+	    else if(e.keyCode == 37) {
+	        this.leftPressed = true;
 	    }
 	}
 
-	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-		dx = -dx;
+	// Touche relaché
+	keyUpHandler(e) {
+	    if(e.keyCode == 39) {
+	        this.rightPressed = false;
+	    }
+	    else if(e.keyCode == 37) {
+	        this.leftPressed = false;
+	    }
 	}
 
-	if(rightPressed && paddleX < canvas.width-paddleWidth) {
-    	paddleX += 7;
-	}
-	else if(leftPressed && paddleX > 0) {
-	    paddleX -= 7;
+	// Mouvement de la souris
+	mouseMoveHandler(e) {
+	    var relativeX = e.clientX - this.canvas.offsetLeft;
+	    if(relativeX > (0 + this.paddleWidth/2)  && relativeX < (this.canvas.width - this.paddleWidth/2)) {
+	        this.paddleX = relativeX - this.paddleWidth/2;
+	    }
 	}
 
-	x += dx;
-	y += dy;
-	requestAnimationFrame(draw);
+	// Détection des collisions
+	collisionDetection() {
+	    for(var c=0; c<this.brickColumnCount; c++) {
+	        for(var r=0; r<this.brickRowCount; r++) {
+	            var b = this.bricks[c][r];
+	            if (b.status == 1) {
+		            if(this.x > b.x && this.x < b.x+this.brickWidth && this.y > b.y && this.y < b.y+this.brickHeight) {
+		                this.dy = -this.dy;
+		                b.status = 0;
+		                this.score++;
+		                if(this.score == this.brickRowCount*this.brickColumnCount) {
+	                        alert("YOU WIN, CONGRATULATIONS!");
+	                        document.location.reload();
+	                    }
+		            }
+	            }
+	        }
+	    }
+	}
+
+	// Afficher le score
+	drawScore() {
+	    this.ctx.font = "16px Arial";
+	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fillText("Score: "+this.score, 8, 20);
+	}
+
+	// Affiche le nombre de vies
+	drawLives() {
+	    this.ctx.font = "16px Arial";
+	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fillText("Lives: "+this.lives, this.canvas.width-65, 20);
+	}
+
+	// Dessiner la balle
+	drawBall() {
+		this.ctx.beginPath();
+		this.ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
+		this.ctx.fillStyle = "#0095DD";
+		this.ctx.fill();
+		this.ctx.closePath();
+	}
+
+	// Dessiner le paddle
+	drawPaddle() {
+	    this.ctx.beginPath();
+	    this.ctx.rect(this.paddleX, this.canvas.height-this.paddleHeight, this.paddleWidth, this.paddleHeight);
+	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fill();
+	    this.ctx.closePath();
+	}
+
+	// Dessiner les briques
+	drawBricks() {
+	    for(var c=0; c<this.brickColumnCount; c++) {
+	        for(var r=0; r<this.brickRowCount; r++) {
+	        	if (this.bricks[c][r].status == 1) {
+		        	var brickX = (c*(this.brickWidth+this.brickPadding))+this.brickOffsetLeft;
+					var brickY = (r*(this.brickHeight+this.brickPadding))+this.brickOffsetTop;
+		            this.bricks[c][r].x = brickX;
+		            this.bricks[c][r].y = brickY;
+		            this.ctx.beginPath();
+		            this.ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
+		            this.ctx.fillStyle = "#0095DD";
+		            this.ctx.fill();
+		            this.ctx.closePath();
+	            }
+	        }
+	    }
+	}
+
+	// Dessiner
+	draw() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.drawBricks();
+		this.drawBall();
+		this.drawPaddle();
+		this.drawScore();
+		this.drawLives();
+		this.collisionDetection();
+
+		if(this.y + this.dy < this.ballRadius) {
+			this.dy = -this.dy;
+		} else if(this.y + this.dy > this.canvas.height-this.ballRadius) {
+			if(this.x > this.paddleX && this.x < this.paddleX + this.paddleWidth) {
+		        this.dy = -this.dy;
+		    } else {
+			    this.lives--;
+				if(!this.lives) {
+				    alert("GAME OVER");
+				    document.location.reload();
+				}
+				else {
+				    this.x = this.canvas.width/2;
+				    this.y = this.canvas.height-30;
+				    this.dx = this.ballSpeed;
+				    this.dy = -this.ballSpeed;
+				    this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+				}
+		    }
+		}
+
+		if(this.x + this.dx > this.canvas.width-this.ballRadius || this.x + this.dx < this.ballRadius) {
+			this.dx = -this.dx;
+		}
+
+		if(this.rightPressed && this.paddleX < this.canvas.width-this.paddleWidth) {
+	    	this.paddleX += 7;
+		}
+		else if(this.leftPressed && this.paddleX > 0) {
+		    this.paddleX -= 7;
+		}
+
+		this.x += this.dx;
+		this.y += this.dy;
+		requestAnimationFrame(this.draw.bind(this));
+	}
 }
 
-draw();
+//Construit la carte à la fin du chargement de la page
+window.addEventListener("load", function(){
+	const casseBrique = new brickBreaker();
+});
