@@ -5,8 +5,8 @@ var ctx = canvas.getContext("2d");
 // Balle
 var x = canvas.width/2;
 var y = canvas.height-30;
-var dx = 2;
-var dy = -2;
+var dx = 4;
+var dy = -4;
 var ballRadius = 10;
 
 // Paddle
@@ -35,6 +35,9 @@ for(var c=0; c<brickColumnCount; c++) {
 
 // Score
 var score = 0;
+
+// Vies
+var lives = 3;
 
 // Évènements
 document.addEventListener("keydown", keyDownHandler, false);
@@ -79,7 +82,6 @@ function collisionDetection() {
 	                if(score == brickRowCount*brickColumnCount) {
                         alert("YOU WIN, CONGRATULATIONS!");
                         document.location.reload();
-                        clearInterval(interval); // Needed for Chrome to end game
                     }
 	            }
             }
@@ -92,6 +94,13 @@ function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
     ctx.fillText("Score: "+score, 8, 20);
+}
+
+// Affiche le nombre de vies
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
 // Dessiner la balle
@@ -138,6 +147,7 @@ function draw() {
 	drawBall();
 	drawPaddle();
 	drawScore();
+	drawLives();
 	collisionDetection();
 
 	if(y + dy < ballRadius) {
@@ -146,8 +156,18 @@ function draw() {
 		if(x > paddleX && x < paddleX + paddleWidth) {
 	        dy = -dy;
 	    } else {
-		    alert("GAME OVER");
-		    document.location.reload();
+		    lives--;
+			if(!lives) {
+			    alert("GAME OVER");
+			    document.location.reload();
+			}
+			else {
+			    x = canvas.width/2;
+			    y = canvas.height-30;
+			    dx = 2;
+			    dy = -2;
+			    paddleX = (canvas.width-paddleWidth)/2;
+			}
 	    }
 	}
 
@@ -164,6 +184,7 @@ function draw() {
 
 	x += dx;
 	y += dy;
+	requestAnimationFrame(draw);
 }
 
-setInterval(draw, 10);
+draw();
