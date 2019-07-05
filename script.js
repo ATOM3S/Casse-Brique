@@ -1,22 +1,26 @@
 class brickBreaker {
 
-	constructor () {
+	constructor (elementId) {
+		this.gameElt = document.getElementById(elementId);
+
 		// Canvas
-		this.canvas = document.getElementById("myCanvas");
+		this.canvas = document.createElement("canvas");
 		this.ctx = this.canvas.getContext("2d");
+		this.canvas.width = "480";
+		this.canvas.height = "320";
 
 		// Balle
 		this.x = this.canvas.width/2;
-		this.y = this.canvas.height-30;
-		this.ballSpeed = 4;
-		this.dx = this.ballSpeed;
-		this.dy = -this.ballSpeed;
-		this.ballRadius = 10;
+		this.y = this.canvas.height-30; 
+		//this.ballSpeed = 4;
+		//this.dx = this.ballSpeed;
+		//this.dy = -this.ballSpeed;
+		//this.ballRadius = 10;
 
 		// Paddle
 		this.paddleHeight = 10;
-		this.paddleWidth = 75;
-		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+		//this.paddleWidth = 75;
+		//this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 		this.rightPressed = false;
 		this.leftPressed = false;
 
@@ -40,14 +44,115 @@ class brickBreaker {
 		// Score
 		this.score = 0;
 
-		// Vies
-		this.lives = 3;
-
 		// Évènements
 		document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
 		document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
 		document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false);
 
+		// Choisir la difficulté
+		this.chooseDifficulty();
+	}
+
+	// Choisir la difficulté
+	chooseDifficulty() {
+		// Bouton facile
+		this.easyButton = document.createElement("button");
+		this.easyButton.textContent = "facile";
+		this.easyButton.addEventListener("click", this.easyMod.bind(this));
+
+		// Bouton normal
+		this.normalButton = document.createElement("button");
+		this.normalButton.textContent = "normal";
+		this.normalButton.addEventListener("click", this.normalMod.bind(this));
+
+		// Bouton difficile
+		this.hardButton = document.createElement("button");
+		this.hardButton.textContent = "difficile";
+		this.hardButton.addEventListener("click", this.hardMod.bind(this));
+
+		// Div contenant les boutons
+		this.buttonsElt = document.createElement("div");
+
+		this.buttonsElt.appendChild(this.easyButton);
+		this.buttonsElt.appendChild(this.normalButton);
+		this.buttonsElt.appendChild(this.hardButton);
+
+		// Ajout de buttonsElt dans gameElt
+		this.gameElt.appendChild(this.buttonsElt);
+	}
+
+	// Mode facile
+	easyMod() {
+		// On retire les boutons
+		this.gameElt.removeChild(this.buttonsElt);
+
+		// Balle 
+		this.ballSpeed = 3;
+		this.dx = this.ballSpeed;
+		this.dy = -this.ballSpeed;
+		this.ballRadius = 10;
+
+		// Paddle
+		this.paddleWidth = 100;
+		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+
+		// Vies
+		this.lives = 3;
+
+		// Ajout du canvas dans l'element
+		this.gameElt.appendChild(this.canvas);
+
+		// Lancement de la fonction dessiner.
+		this.draw();
+	}
+
+	// Mode normal
+	normalMod() {
+		// On retire les boutons
+		this.gameElt.removeChild(this.buttonsElt);
+
+		// Balle 
+		this.ballSpeed = 4;
+		this.dx = this.ballSpeed;
+		this.dy = -this.ballSpeed;
+		this.ballRadius = 8;
+
+		// Paddle
+		this.paddleWidth = 75;
+		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+
+		// Vies
+		this.lives = 2;
+
+		// Ajout du canvas dans l'element
+		this.gameElt.appendChild(this.canvas);
+
+		// Lancement de la fonction dessiner.
+		this.draw();
+	}
+
+	// Mode difficile
+	hardMod() {
+		// On retire les boutons
+		this.gameElt.removeChild(this.buttonsElt);
+
+		// Balle 
+		this.ballSpeed = 5;
+		this.dx = this.ballSpeed;
+		this.dy = -this.ballSpeed;
+		this.ballRadius = 6;
+
+		// Paddle
+		this.paddleWidth = 50;
+		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+
+		// Vies
+		this.lives = 1;
+
+		// Ajout du canvas dans l'element
+		this.gameElt.appendChild(this.canvas);
+
+		// Lancement de la fonction dessiner.
 		this.draw();
 	}
 
@@ -200,5 +305,5 @@ class brickBreaker {
 
 //Construit la carte à la fin du chargement de la page
 window.addEventListener("load", function(){
-	const casseBrique = new brickBreaker();
+	const casseBrique = new brickBreaker("myCanvas");
 });
