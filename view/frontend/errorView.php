@@ -2,7 +2,7 @@
 
 <?php ob_start(); ?>
 
-<div class="bg-blue-2 p-2 mt-5 rounded align-items-center">
+<div class="p-2 mt-5 rounded align-items-center">
 	<p class=""><?= $error ?></p>
 	<?php  
 	// $_SESSION['redirection'] permet de choisir ou rediriger l'utilisateur arpès une erreur

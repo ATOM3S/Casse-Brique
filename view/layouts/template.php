@@ -31,13 +31,12 @@
                   </button>
                   <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                     <div class="navbar-nav ml-auto">
-                      <a class="nav-item nav-link" href="index.php?action=listPosts">Chapitres</a>
+                      <a class="nav-item nav-link" href="index.php?action=brickBreaker">Casse-Brique</a>
                       <?php 
-                      if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == true)) 
+                      if (isset($_SESSION['isConnect']) && ($_SESSION['isConnect'] == true)) 
                       {
                         ?>
-                        <a class="nav-item nav-link" href="index.php?action=backOffice">Gestion</a>
-                        <a class="nav-item nav-link" href="index.php?action=manageComments">Commentaires</a>
+                        <a class="nav-item nav-link" href="index.php?action=myAccount">mon Compte</a>
                         <a class="nav-item nav-link text-danger" href="index.php?action=disconnect">Déconnexion</a>
                         <?php
                       } 
