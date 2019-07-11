@@ -25,6 +25,7 @@ class brickBreaker {
 		this.leftPressed = false;
 
 		// Briques
+		this.brickColors = ['green', 'blue', 'orange'];
 		this.brickRowCount = 3;
 		this.brickColumnCount = 5;
 		this.brickWidth = 75;
@@ -42,12 +43,14 @@ class brickBreaker {
 		}
 
 		// Score
+		this.brickBreaked = 0;
 		this.score = 0;
+		this.combo = 1;
 
 		// Évènements
 		document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
 		document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
-		document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false);
+		//document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false); // controle à la souris
 
 		// Choisir la difficulté
 		this.chooseDifficulty();
@@ -86,10 +89,13 @@ class brickBreaker {
 		// On retire les boutons
 		this.gameElt.removeChild(this.buttonsElt);
 
+		// Couleur
+		this.color = "green";
+
 		// Balle 
-		this.ballSpeed = 3;
-		this.dx = this.ballSpeed;
-		this.dy = -this.ballSpeed;
+		this.ballSpeedInit = 3;
+		this.dx = this.ballSpeedInit;
+		this.dy = -this.ballSpeedInit;
 		this.ballRadius = 10;
 
 		// Paddle
@@ -98,6 +104,9 @@ class brickBreaker {
 
 		// Vies
 		this.lives = 3;
+
+		// Bonus
+		this.bonus = 1;
 
 		// Ajout du canvas dans l'element
 		this.gameElt.appendChild(this.canvas);
@@ -111,10 +120,13 @@ class brickBreaker {
 		// On retire les boutons
 		this.gameElt.removeChild(this.buttonsElt);
 
+		// Couleur
+		this.color = "blue";
+
 		// Balle 
-		this.ballSpeed = 4;
-		this.dx = this.ballSpeed;
-		this.dy = -this.ballSpeed;
+		this.ballSpeedInit = 4;
+		this.dx = this.ballSpeedInit;
+		this.dy = -this.ballSpeedInit;
 		this.ballRadius = 8;
 
 		// Paddle
@@ -123,6 +135,9 @@ class brickBreaker {
 
 		// Vies
 		this.lives = 2;
+
+		// Bonus
+		this.bonus = 1.25;
 
 		// Ajout du canvas dans l'element
 		this.gameElt.appendChild(this.canvas);
@@ -136,10 +151,13 @@ class brickBreaker {
 		// On retire les boutons
 		this.gameElt.removeChild(this.buttonsElt);
 
+		// Couleur
+		this.color = "orange";
+
 		// Balle 
-		this.ballSpeed = 5;
-		this.dx = this.ballSpeed;
-		this.dy = -this.ballSpeed;
+		this.ballSpeedInit = 5;
+		this.dx = this.ballSpeedInit;
+		this.dy = -this.ballSpeedInit;
 		this.ballRadius = 6;
 
 		// Paddle
@@ -148,6 +166,9 @@ class brickBreaker {
 
 		// Vies
 		this.lives = 1;
+
+		// Bonus
+		this.bonus = 1.5;
 
 		// Ajout du canvas dans l'element
 		this.gameElt.appendChild(this.canvas);
@@ -193,8 +214,10 @@ class brickBreaker {
 		            if(this.x > b.x && this.x < b.x+this.brickWidth && this.y > b.y && this.y < b.y+this.brickHeight) {
 		                this.dy = -this.dy;
 		                b.status = 0;
-		                this.score++;
-		                if(this.score == this.brickRowCount*this.brickColumnCount) {
+		                this.brickBreaked++;
+		                this.score = this.score + (100*this.bonus)*this.combo;
+		                this.combo++;
+		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
 	                        alert("YOU WIN, CONGRATULATIONS!");
 	                        document.location.reload();
 	                    }
@@ -207,14 +230,14 @@ class brickBreaker {
 	// Afficher le score
 	drawScore() {
 	    this.ctx.font = "16px Arial";
-	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fillStyle = this.color;
 	    this.ctx.fillText("Score: "+this.score, 8, 20);
 	}
 
 	// Affiche le nombre de vies
 	drawLives() {
 	    this.ctx.font = "16px Arial";
-	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fillStyle = this.color;
 	    this.ctx.fillText("Lives: "+this.lives, this.canvas.width-65, 20);
 	}
 
@@ -222,7 +245,7 @@ class brickBreaker {
 	drawBall() {
 		this.ctx.beginPath();
 		this.ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
-		this.ctx.fillStyle = "#0095DD";
+		this.ctx.fillStyle = this.color;
 		this.ctx.fill();
 		this.ctx.closePath();
 	}
@@ -231,13 +254,14 @@ class brickBreaker {
 	drawPaddle() {
 	    this.ctx.beginPath();
 	    this.ctx.rect(this.paddleX, this.canvas.height-this.paddleHeight, this.paddleWidth, this.paddleHeight);
-	    this.ctx.fillStyle = "#0095DD";
+	    this.ctx.fillStyle = this.color;
 	    this.ctx.fill();
 	    this.ctx.closePath();
 	}
 
 	// Dessiner les briques
 	drawBricks() {
+		var i = 0;
 	    for(var c=0; c<this.brickColumnCount; c++) {
 	        for(var r=0; r<this.brickRowCount; r++) {
 	        	if (this.bricks[c][r].status == 1) {
@@ -247,7 +271,12 @@ class brickBreaker {
 		            this.bricks[c][r].y = brickY;
 		            this.ctx.beginPath();
 		            this.ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
-		            this.ctx.fillStyle = "#0095DD";
+		            this.ctx.fillStyle = this.brickColors[i];
+		            if (i < this.brickColors.length-1) {
+		            	i++
+		            } else {
+		            	i = 0;
+		            }
 		            this.ctx.fill();
 		            this.ctx.closePath();
 	            }
@@ -269,7 +298,13 @@ class brickBreaker {
 			this.dy = -this.dy;
 		} else if(this.y + this.dy > this.canvas.height-this.ballRadius) {
 			if(this.x > this.paddleX && this.x < this.paddleX + this.paddleWidth) {
+				if (this.rightPressed) {
+					this.dx = this.dx + 1;
+				} else if (this.leftPressed) {
+					this.dx = this.dx - 1;
+				}
 		        this.dy = -this.dy;
+		        this.combo = 1;
 		    } else {
 			    this.lives--;
 				if(!this.lives) {
@@ -279,9 +314,10 @@ class brickBreaker {
 				else {
 				    this.x = this.canvas.width/2;
 				    this.y = this.canvas.height-30;
-				    this.dx = this.ballSpeed;
-				    this.dy = -this.ballSpeed;
+				    this.dx = this.ballSpeedInit;
+				    this.dy = -this.ballSpeedInit;
 				    this.paddleX = (this.canvas.width-this.paddleWidth)/2;
+				    this.combo = 1;
 				}
 		    }
 		}
@@ -301,6 +337,33 @@ class brickBreaker {
 		this.y += this.dy;
 		requestAnimationFrame(this.draw.bind(this));
 	}
+
+	// Formulaire en cas de victoire
+	/*winningForm() {
+		this.winForm = document.createElement("form");
+		this.winForm.classList.add("p-4", "rounded");
+		this.winForm.setAttribute("action", "index.php");
+
+		this.winInputLabel = document.createElement("label");
+		this.winInputLabel.classList.add("font-weight-bold");
+		this.winInputLabel.setAttribute("for", "winnerName");
+
+		this.winInput = document.createElement("label");
+		this.winInput.classList.add("form-control");
+		this.winInput.setAttribute("id", "winnerName");
+		this.winInput.setAttribute("name", "winnerName");
+		this.winInput.setAttribute("maxlength", "3");
+
+		this.winButton = document.createElement("button");
+		this.winButton.setAttribute("type", "submit");
+
+		this.winForm.appendChild(this.winInputLabel);
+		this.winForm.appendChild(this.winInput);
+		this.winForm.appendChild(this.winButton);
+
+		this.gameElt.removeChild(this.canvas);
+		this.gameElt.appendChild(this.winForm);
+	}*/
 }
 
 //Construit la carte à la fin du chargement de la page

@@ -11,7 +11,7 @@
 	</div>
 	<div class="form-group">
 	    <label for="email" class="font-weight-bold">ADRESSE EMAIL :</label>
-	    <input type="text" class="form-control" id="email" name="email" placeholder="Adresse email" required />
+	    <input type="email" class="form-control" id="email" name="email" placeholder="Adresse email" required />
 	</div>
 	<div class="form-group">
 	    <label for="password" class="font-weight-bold">MOT DE PASSE :</label>

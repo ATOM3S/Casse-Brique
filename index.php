@@ -44,6 +44,16 @@ try {
                 throw new Exception("Tous les champs doivent être complété.");
             }   
         }
+        elseif ($_GET['action'] == 'verifyAccount') {
+            if (isset($_GET['username']) &&  !empty($_GET['username']) && isset($_GET['verif']) &&  !empty($_GET['verif'])) 
+            {
+                verifyAccount(htmlspecialchars($_GET['username']), htmlspecialchars($_GET['verif']));   
+            }
+            else
+            {
+                throw new Exception("Il semble y avoir une erreur avec le lien de validation.");
+            }   
+        }
         elseif (isset($_SESSION['isConnect']) && $_SESSION['isConnect']) 
         {
             if ($_GET['action'] == 'myAccount') {

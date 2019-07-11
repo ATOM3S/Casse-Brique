@@ -46,8 +46,16 @@ function addAccount($username, $email, $password)
 	}
 	else {
 		$_SESSION['redirection'] = 'index.php?action=login';
-		throw new Exception("Votre compte a bien été créé !");
+		throw new Exception("Votre compte a bien été créé ! Un mail vous a été envoyé pour vérifier votre compte (pensez à vérifier le courrier indésirable/spam).");
 	}
+}
+
+// Vérifier le compte
+function verifyAccount ($username, $verif) 
+{
+	$userManager = new \OpenClassrooms\BrickBreaker\Model\UserManager();
+
+	$verifiedLines = $userManager->verifyAccount($username, $verif);
 }
 
 // Permet à un utilisateur de modifier son mot de passe
