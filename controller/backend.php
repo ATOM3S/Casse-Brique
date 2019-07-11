@@ -80,6 +80,45 @@ function updatePassword($oldPassword, $newPassword)
 	}
 }
 
+// Mot de passe oublié
+function forgottenPassword()
+{
+	require('view/backend/forgottenPasswordView.php');
+}
+
+// Envoyer un mail de récupération
+function sendRecuperationMail($email)
+{
+	$userManager = new \OpenClassrooms\BrickBreaker\Model\UserManager();
+
+	$updatedLines = $userManager->sendRecuperationMail($email);
+
+	throw new Exception("Un mail de récupération vous a été envoyé. Veuillez consulter votre boite mail (n'oubliez pas de consulter aussi vos SPAM/indésirables).");
+	
+}
+
+// Choix du nouveau mot de passe
+function newPassword ()
+{
+	require('view/backend/resetPasswordView.php');
+}
+
+// Vérifier sur le code de vérification est bon avant de changer de mdp
+function resetPassword($userId, $verifCode, $newPassword)
+{
+	$userManager = new \OpenClassrooms\BrickBreaker\Model\UserManager();
+
+	$updatedLines = $userManager->resetPassword($userId, $verifCode, $newPassword);
+
+	if (!$updatedLines) {
+		$_SESSION['redirection'] = 'index.php?action=changePassword';
+		throw new Exception("Erreur, impossible de modifier le mot de passe");
+	} else {
+		$_SESSION['redirection'] = 'index.php?action=myAccount';
+		throw new Exception("Le mot de passe a été mis à jour !");
+	}
+}
+
 // Se déconnecter 
 function disconnect()
 {

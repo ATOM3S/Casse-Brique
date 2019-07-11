@@ -54,6 +54,39 @@ try {
                 throw new Exception("Il semble y avoir une erreur avec le lien de validation.");
             }   
         }
+        elseif ($_GET['action'] == 'forgottenPassword') {
+            forgottenPassword();
+        }
+        elseif ($_GET['action'] == 'sendRecuperationMail') {
+            if (isset($_POST['email']) &&  !empty($_POST['email'])) 
+            {
+                sendRecuperationMail(htmlspecialchars($_POST['email']));   
+            }
+            else
+            {
+                throw new Exception("Erreur, l'addresse email n'est pas valide.");
+            }   
+        }
+        elseif ($_GET['action'] == 'newPassword') {
+            if (isset($_GET['id']) &&  !empty($_GET['id']) && isset($_GET['verif']) &&  !empty($_GET['verif'])) 
+            {
+                newPassword();   
+            }
+            else
+            {
+                throw new Exception("Erreur, il semble y avoir un problème avec le lien de récupération.");
+            } 
+        }
+        elseif ($_GET['action'] == 'resetPassword') {
+            if (isset($_GET['id']) &&  !empty($_GET['id']) && isset($_GET['verif']) &&  !empty($_GET['verif']) && isset($_POST['new-password']) &&  !empty($_POST['new-password'])) 
+            {
+                resetPassword(htmlspecialchars($_GET['id']), htmlspecialchars($_GET['verif']), htmlspecialchars($_POST['new-password']));   
+            }
+            else
+            {
+                throw new Exception("Erreur, il semble y avoir un problème avec le lien de récupération ou avec le nouveau mot de passe.");
+            }   
+        }
         elseif (isset($_SESSION['isConnect']) && $_SESSION['isConnect']) 
         {
             if ($_GET['action'] == 'myAccount') {

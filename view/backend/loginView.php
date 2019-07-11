@@ -19,6 +19,7 @@
 </form>
 <div class="row">
 	<a class="btn btn-primary mt-1 float-right" href="index.php?action=createAccount">Créer un compte</a>
+	<a class="btn btn-info mt-1 float-right" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
 </div>
 
 <?php $content = ob_get_clean(); ?>

@@ -14,6 +14,7 @@ class UserManager extends Manager
 		$req->execute(array($username));
 		$resultat = $req->fetch();
 
+		$req->closeCursor();
 		if (!$resultat) {
 			return false;
 		}
@@ -31,20 +32,30 @@ class UserManager extends Manager
 		$resultat = $req->fetch();
 
 		if (!$resultat) {
+			$req->closeCursor();
 			return false;
 		}
 		else {
+			$req->closeCursor();
 			return true;
 		}
 	}
 
-	// Envoyer un mail de confirmation lors de la création du compte
-	private function sendVerificationMail($username, $email, $verification)
+	// Header pour l'envoie d'un mail
+	private function headerMail()
 	{
 		$header="MIME-Version: 1.0\r\n";
 		$header.='From:"projet5.jonasdelaunay.com"<contact@jonasdelaunay.com>'."\n";
 		$header.='Content-Type:text/html; charset="utf-8"'."\n";
 		$header.='Content-Transfer-Encoding: 8bit';
+
+		return $header;
+	}
+
+	// Envoyer un mail de confirmation lors de la création du compte
+	private function sendVerificationMail($username, $email, $verification)
+	{
+		$header = $this->headerMail();
 
 		$message= '
 			<html>
@@ -58,6 +69,48 @@ class UserManager extends Manager
 		';
 
 		mail($email, "Vérification de compte casse-brique", $message, $header);
+	}
+
+	// Envoyer un mail de récupération en cas de mdp oublié
+	public function sendRecuperationMail($email)
+	{
+		if ($this->isEmailExist($email)) {
+			$db = $this->dbConnect();
+			$req = $db->prepare('SELECT id, username FROM users WHERE email = ?');
+			$req->execute(array($email));
+			$resultat = $req->fetch();
+
+			$userId = $resultat['id'];
+			$username = $resultat['username'];
+			$req->closeCursor();
+
+			$verifCode = password_hash(date("Y-iI-:ymh-dHs"), PASSWORD_DEFAULT);
+
+			$db = $this->dbConnect();
+			$req = $db->prepare('UPDATE users SET verification = ? WHERE id = ?');
+			$req->execute(array($verifCode, $userId));
+
+			$header = $this->headerMail();
+
+			$message= '
+				<html>
+					<body>
+						<p>Bonjour '.$username.'</p>
+						<p>Ceci est un mail de récupération de mot de passe oublié</p>
+						<p>Utilisez le lien ci-dessous pour réinitialiser votre mot de passe.</p>
+						<p>Si vous n\'avez pas fait cette demande, veuillez ignorer ce mail.</p>
+						<p><a href="http://projet5.jonasdelaunay.com/index.php?action=newPassword&id='.$userId.'&verif='.$verifCode.'">Cliquez ici pour réinitialiser votre mot de passe</a></p>
+					</body>
+				</html>
+			';
+
+			mail($email, "réinitialiser mot de passe casse-brique", $message, $header);
+		} 
+		else 
+		{
+			$_SESSION['redirection'] = 'index.php?action=forgottenPassword';
+			throw new \Exception("Cette adresse email n'est associé à aucun compte");
+		}
 	}
 
 	// Ajouter un nouveau compte dans la base de donnée
@@ -141,6 +194,7 @@ class UserManager extends Manager
 		return $isConnect;
 	}
 
+	// Mettre à jour le mot de passe
 	public function updatePassword($oldPassword, $newPassword)
 	{
 		$db = $this->dbConnect();
@@ -163,6 +217,28 @@ class UserManager extends Manager
 			$updatedLines = $users->execute(array(password_hash($newPassword, PASSWORD_DEFAULT), $_SESSION['username']));
 
 			return $updatedLines;
+		}
+	}
+
+	// Met à jour le mot de passe si le code de vérification est correcte
+	public function resetPassword($userId, $verifCode, $newPassword)
+	{
+		$db = $this->dbConnect();
+		$req = $db->prepare('SELECT verification FROM users WHERE id = ?');
+		$req->execute(array($userId));
+		$resultat = $req->fetch();
+
+		if ($resultat['verification'] == $verifCode) {
+			$req->closeCursor();
+			$db = $this->dbConnect();
+			$req = $db->prepare('UPDATE users SET password = ?, verification = "" WHERE id = ?');
+			$updatedLines = $req->execute(array(password_hash($newPassword, PASSWORD_DEFAULT), $userId));
+
+			return $updatedLines;
+		}
+		else
+		{
+			throw new \Exception("Il y a un problème avec le code de vérification");
 		}
 	}
 }
