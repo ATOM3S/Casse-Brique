@@ -96,7 +96,11 @@ try {
         elseif (isset($_SESSION['isConnect']) && $_SESSION['isConnect']) 
         {
             if ($_GET['action'] == 'myAccount') {
-                myAccount();
+                if (!isset($_GET['page'])) {
+                    header('location: index.php?action=myAccount&page=1');
+                } else {
+                    myAccount();
+                }  
             }
             elseif ($_GET['action'] == 'changePassword') {
                 changePassword();

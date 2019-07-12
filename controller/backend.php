@@ -3,9 +3,31 @@
 // Chargement des classes
 require_once('model/UserManager.php');
 
-// Se connecter
+// Afficher mon compte (et ses scores)
 function myAccount()
 {
+	$scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
+
+	$numberOfScores = $scoreManager->numberOfScores($_SESSION['username']);
+
+	if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page']>0) {
+		$page = htmlspecialchars($_GET['page']);
+	}
+	else
+	{
+		$page = 1;
+	}	
+
+	if (isset($_GET['orderBy']) && !empty($_GET['orderBy'])) {
+		$orderBy = htmlspecialchars($_GET['orderBy']);
+	}
+	else
+	{
+		$orderBy = 'score';
+	}
+
+	$scores = $scoreManager->getUserScore($_SESSION['username'], $page, $orderBy);
+
     require('view/backend/myAccountView.php');
 }
 
