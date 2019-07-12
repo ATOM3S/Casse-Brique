@@ -31,7 +31,8 @@
                   </button>
                   <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                     <div class="navbar-nav ml-auto">
-                      <a class="nav-item nav-link" href="index.php?action=brickBreaker">Casse-Brique</a>
+                      <a class="nav-item nav-link" href="index.php?action">Casse-Brique</a>
+                      <a class="nav-item nav-link" href="index.php?action=leaderboard">Leaderboard</a>
                       <?php 
                       if (isset($_SESSION['isConnect']) && ($_SESSION['isConnect'] == true)) 
                       {

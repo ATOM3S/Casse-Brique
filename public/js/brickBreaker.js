@@ -219,7 +219,7 @@ class brickBreaker {
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
 	                        alert("YOU WIN, CONGRATULATIONS!");
-	                        document.location.reload();
+	                        document.location.href="index.php?action=afterWin&score=" + this.score;
 	                    }
 		            }
 	            }
@@ -309,7 +309,7 @@ class brickBreaker {
 			    this.lives--;
 				if(!this.lives) {
 				    alert("GAME OVER");
-				    document.location.reload();
+				    document.location.href="index.php?action=afterWin&score=" + this.score;
 				}
 				else {
 				    this.x = this.canvas.width/2;
