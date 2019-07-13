@@ -1,19 +1,23 @@
-<?php $title = "Mon Compte"; ?>
+<?php 
+$title = "Mon Compte";
+$description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez à vos scores." 
+?>
 
 <?php ob_start(); ?>
 
 <h1 class="text-center my-5"><u>Mon Compte</u></h1>
-<h2 class="text-center my-5"><?= $_SESSION['username'] ?></h2>
-<a href="index.php?action=changePassword">Changer le mot de passe</a>
+<h2 class="text-center my-5">Utilisateur: <em><?= $_SESSION['username'] ?></em></h2>
+<div class="row justify-content-center"><a href="index.php?action=changePassword" class="btn btn-primary">Changer le mot de passe</a></div>
 
 <h2 class="text-center my-5"><u>Mes scores</u></h2>
-<p>Trier par: <a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=date">Date</a> | <a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=score">Score</a></p>
+<p class="row justify-content-center">Trier par: <a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=date"> Date</a> | <a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=score">Score</a></p>
 
 <?php 
 if (isset($scores)) 
 {
 ?>
-	<table class="table">
+<div class="row justify-content-center pt-4">
+	<table class="table col-4">
 	    <thead>
 	        <tr>
 	            <th scope="col">#</th>
@@ -29,7 +33,7 @@ if (isset($scores))
 	    $i++;
 	    ?> 
 	        <tr>
-	            <th scope="row"><?=$i?></th>
+	            <th scope="row"><?=(($page-1)*10)+$i?></th>
 	            <td><?=$data['score']?></td>
 	            <td><?=$data['score_date']?></td>
 	        </tr>
@@ -39,7 +43,8 @@ if (isset($scores))
 	?>
 	    </tbody>
 	</table>
-	
+</div>
+<p class="row justify-content-center">
 	<?php 
 	if (isset($_GET['orderBy']) && !empty($_GET['orderBy'])) 
 	{
@@ -51,7 +56,7 @@ if (isset($scores))
 		if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page']>1) {
 			$prevPage = htmlspecialchars($_GET['page'])-1;
 			?>
-			<a href="index.php?action=myAccount&page=<?=$prevPage?><?=$newOrderBy?>">Page précédente </a>
+			<a href="index.php?action=myAccount&page=<?=$prevPage?><?=$newOrderBy?>"><- Page précédente |</a>
 			<?php
 		}
 
@@ -59,13 +64,13 @@ if (isset($scores))
 		{
 			$nextPage = htmlspecialchars($_GET['page']) + 1; 
 			?>
-			<a href="index.php?action=myAccount&page=<?=$nextPage?><?=$newOrderBy?>"> Page suivante</a>
+			<a href="index.php?action=myAccount&page=<?=$nextPage?><?=$newOrderBy?>">| Page suivante -></a>
 			<?php
 		}
 	}
-
 }
 ?>
+</p>
 	
 
 <?php $content = ob_get_clean(); ?>

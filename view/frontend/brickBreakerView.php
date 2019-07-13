@@ -1,4 +1,7 @@
-<?php $title = 'Casse-Brique'; ?>
+<?php 
+$title = 'Casse-Brique'; 
+$description = 'Bienvenue sur le Casse-Brique ! Créez vous un compte et essayez de battre les meilleurs scores !';
+?>
 
 <?php ob_start(); ?>
 <section class="row justify-content-center pt-5">

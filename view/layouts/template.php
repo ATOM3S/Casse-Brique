@@ -6,7 +6,15 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+        <meta name="description" content=
+        <?php 
+        if (isset($description)) {
+          echo $description;
+        } else {
+          echo "Bienvenue sur le Casse-Brique ! Créez vous un compte et essayez de battre les meilleurs scores !";
+        }
+        ?>
+        >
 
         <link rel="apple-touch-icon" sizes="57x57" href="public/images/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="public/images/apple-icon-60x60.png">
@@ -37,10 +45,10 @@
         <![endif]-->
     </head>
         
-    <body>
+    <body class="bg-light">
         <div class="container">
             <header class="pt-2">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+                <nav class="navbar navbar-expand-lg navbar-light rounded" style="background-color: #e3f2fd;>
                   <a class="navbar-brand" href="index.php">
                     <img src="public/images/logo.png" width="60" height="60" alt="">
                   </a>

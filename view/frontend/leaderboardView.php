@@ -1,9 +1,13 @@
-<?php $title = 'Leaderboard'; ?>
+<?php 
+$title = 'Leaderboard'; 
+$description = "Leaderboard: Tableau d'affichage des meilleurs scores. Essayez d'afficher votre pseudo sur ce tableau !";
+?>
 
 <?php ob_start(); ?>
 <h1 class="text-center mt-5"><u>Leaderboard</u></h1>
 
-<table class="table">
+<div class="row justify-content-center pt-4">
+<table class="table col-6">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -31,7 +35,7 @@ $scores->closeCursor();
 ?>
     </tbody>
 </table>
-
+</div>
 <?php $content = ob_get_clean(); ?>
 
 <?php require(__DIR__ . '/../layouts/template.php'); ?>

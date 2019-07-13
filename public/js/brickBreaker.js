@@ -73,15 +73,27 @@ class brickBreaker {
 		this.easyButton = document.createElement("button");
 		this.easyButton.textContent = "facile";
 		this.easyButton.addEventListener("click", this.easyMod.bind(this));
+		this.easyButton.classList.add("m-5");
+		this.easyButton.classList.add("btn-lg");
+		this.easyButton.classList.add("btn-success");
+		this.easyButton.setAttribute("type", "button");
 
 		// Bouton normal
 		this.normalButton = document.createElement("button");
 		this.normalButton.textContent = "normal";
+		this.normalButton.classList.add("m-5");
+		this.normalButton.classList.add("btn-lg");
+		this.normalButton.classList.add("btn-primary");
+		this.normalButton.setAttribute("type", "button");
 		this.normalButton.addEventListener("click", this.normalMod.bind(this));
 
 		// Bouton difficile
 		this.hardButton = document.createElement("button");
 		this.hardButton.textContent = "difficile";
+		this.hardButton.classList.add("m-5");
+		this.hardButton.classList.add("btn-lg");
+		this.hardButton.classList.add("btn-warning");
+		this.hardButton.setAttribute("type", "button");
 		this.hardButton.addEventListener("click", this.hardMod.bind(this));
 
 		// Div contenant les boutons

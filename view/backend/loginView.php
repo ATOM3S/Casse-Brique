@@ -17,9 +17,9 @@
 		<button type="submit" class="btn btn-success mt-1 float-right">Connexion</button>
 	</div>
 </form>
-<div class="row">
-	<a class="btn btn-primary mt-1 float-right" href="index.php?action=createAccount">Créer un compte</a>
-	<a class="btn btn-info mt-1 float-right" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
+<div class="row justify-content-start pt-5">
+	<a class="col-5 btn-block btn-lg btn-primary mt-1 float-right text-center" href="index.php?action=createAccount">Créer un compte</a>
+	<a class="col-5 btn-block btn-lg btn-info mt-1 float-right text-center" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
 </div>
 
 <?php $content = ob_get_clean(); ?>
