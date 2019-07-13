@@ -26,9 +26,6 @@ function afterWin($score)
     }
     else
     {
-        echo 'marche pas';
-        echo $_SESSION['username'];
-        echo $score;
         header('Location: index.php?action=brickBreaker');
     }
 }

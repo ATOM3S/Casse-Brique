@@ -6,8 +6,13 @@ class brickBreaker {
 		// Canvas
 		this.canvas = document.createElement("canvas");
 		this.ctx = this.canvas.getContext("2d");
-		this.canvas.width = "480";
-		this.canvas.height = "320";
+		if (window.innerWidth>1200) {
+			this.canvas.width = window.innerWidth/2;
+		} else {
+			this.canvas.width = window.innerWidth;
+		}
+		
+		this.canvas.height = this.canvas.width*9/16;
 
 		// Balle
 		this.x = this.canvas.width/2;
@@ -18,27 +23,33 @@ class brickBreaker {
 		//this.ballRadius = 10;
 
 		// Paddle
-		this.paddleHeight = 10;
+		this.paddleHeight = this.canvas.width/48;
 		//this.paddleWidth = 75;
 		//this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 		this.rightPressed = false;
 		this.leftPressed = false;
 
 		// Briques
-		this.brickColors = ['green', 'blue', 'orange'];
-		this.brickRowCount = 3;
-		this.brickColumnCount = 5;
-		this.brickWidth = 75;
-		this.brickHeight = 20;
-		this.brickPadding = 10;
-		this.brickOffsetTop = 30;
-		this.brickOffsetLeft = 30;
+		this.brickColors = ['green', 'blue', 'yellow', 'orange', 'red'];
+		this.brickRowCount = 4;
+		this.brickColumnCount = 6;
+		this.brickHeight = this.canvas.width/24;
+		this.brickWidth = this.brickHeight*4;
+		this.brickPadding = 0;
+		this.brickOffsetTop = this.canvas.width/16;
+		this.brickOffsetLeft = 0;
 
 		this.bricks = [];
+		var i = 0;
 		for(var c=0; c<this.brickColumnCount; c++) {
 		    this.bricks[c] = [];
 		    for(var r=0; r<this.brickRowCount; r++) {
-		        this.bricks[c][r] = { x: 0, y: 0, status: 1 };
+		        this.bricks[c][r] = { x: 0, y: 0, status: 1, color: i };
+		        if (i < this.brickColors.length-1) {
+	            	i++
+	            } else {
+	            	i = 0;
+	            }
 		    }
 		}
 
@@ -93,19 +104,19 @@ class brickBreaker {
 		this.color = "green";
 
 		// Balle 
-		this.ballSpeedInit = 3;
+		this.ballSpeedInit = this.canvas.width/144;
 		this.dx = this.ballSpeedInit;
 		this.dy = -this.ballSpeedInit;
-		this.ballRadius = 10;
+		this.ballRadius = this.canvas.width/48;
 
 		// Paddle
-		this.paddleWidth = 100;
+		this.paddleWidth = this.canvas.width/4.8;
 		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 
 		// Vies
 		this.lives = 3;
 
-		// Bonus
+		// Bonus (multiplicateur de score lié à la difficulté)
 		this.bonus = 1;
 
 		// Ajout du canvas dans l'element
@@ -124,13 +135,13 @@ class brickBreaker {
 		this.color = "blue";
 
 		// Balle 
-		this.ballSpeedInit = 4;
+		this.ballSpeedInit = this.canvas.width/120;
 		this.dx = this.ballSpeedInit;
 		this.dy = -this.ballSpeedInit;
-		this.ballRadius = 8;
+		this.ballRadius = this.canvas.width/60;
 
 		// Paddle
-		this.paddleWidth = 75;
+		this.paddleWidth = this.canvas.width/6.4;
 		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 
 		// Vies
@@ -155,13 +166,13 @@ class brickBreaker {
 		this.color = "orange";
 
 		// Balle 
-		this.ballSpeedInit = 5;
+		this.ballSpeedInit = this.canvas.width/96;
 		this.dx = this.ballSpeedInit;
 		this.dy = -this.ballSpeedInit;
-		this.ballRadius = 6;
+		this.ballRadius = this.canvas.width/80;
 
 		// Paddle
-		this.paddleWidth = 50;
+		this.paddleWidth = this.canvas.width/9.6;
 		this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 
 		// Vies
@@ -229,16 +240,16 @@ class brickBreaker {
 
 	// Afficher le score
 	drawScore() {
-	    this.ctx.font = "16px Arial";
+	    this.ctx.font =  this.canvas.width/30 + "px Arial";
 	    this.ctx.fillStyle = this.color;
-	    this.ctx.fillText("Score: "+this.score, 8, 20);
+	    this.ctx.fillText("Score: "+this.score, (this.canvas.width/60), (this.canvas.width/24));
 	}
 
 	// Affiche le nombre de vies
 	drawLives() {
-	    this.ctx.font = "16px Arial";
+	    this.ctx.font = this.canvas.width/30 + "px Arial";
 	    this.ctx.fillStyle = this.color;
-	    this.ctx.fillText("Lives: "+this.lives, this.canvas.width-65, 20);
+	    this.ctx.fillText("Lives: "+this.lives, this.canvas.width-(this.canvas.width/8), (this.canvas.width/24));
 	}
 
 	// Dessiner la balle
@@ -271,12 +282,7 @@ class brickBreaker {
 		            this.bricks[c][r].y = brickY;
 		            this.ctx.beginPath();
 		            this.ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
-		            this.ctx.fillStyle = this.brickColors[i];
-		            if (i < this.brickColors.length-1) {
-		            	i++
-		            } else {
-		            	i = 0;
-		            }
+		            this.ctx.fillStyle = this.brickColors[this.bricks[c][r].color];
 		            this.ctx.fill();
 		            this.ctx.closePath();
 	            }
@@ -299,9 +305,9 @@ class brickBreaker {
 		} else if(this.y + this.dy > this.canvas.height-this.ballRadius) {
 			if(this.x > this.paddleX && this.x < this.paddleX + this.paddleWidth) {
 				if (this.rightPressed) {
-					this.dx = this.dx + 1;
+					this.dx = this.dx + this.canvas.width/480;
 				} else if (this.leftPressed) {
-					this.dx = this.dx - 1;
+					this.dx = this.dx - this.canvas.width/480;
 				}
 		        this.dy = -this.dy;
 		        this.combo = 1;
@@ -313,7 +319,7 @@ class brickBreaker {
 				}
 				else {
 				    this.x = this.canvas.width/2;
-				    this.y = this.canvas.height-30;
+				    this.y = this.canvas.height-(this.canvas.width/16);
 				    this.dx = this.ballSpeedInit;
 				    this.dy = -this.ballSpeedInit;
 				    this.paddleX = (this.canvas.width-this.paddleWidth)/2;
@@ -327,43 +333,16 @@ class brickBreaker {
 		}
 
 		if(this.rightPressed && this.paddleX < this.canvas.width-this.paddleWidth) {
-	    	this.paddleX += 7;
+	    	this.paddleX += this.canvas.width/60;
 		}
 		else if(this.leftPressed && this.paddleX > 0) {
-		    this.paddleX -= 7;
+		    this.paddleX -= this.canvas.width/60;
 		}
 
 		this.x += this.dx;
 		this.y += this.dy;
 		requestAnimationFrame(this.draw.bind(this));
 	}
-
-	// Formulaire en cas de victoire
-	/*winningForm() {
-		this.winForm = document.createElement("form");
-		this.winForm.classList.add("p-4", "rounded");
-		this.winForm.setAttribute("action", "index.php");
-
-		this.winInputLabel = document.createElement("label");
-		this.winInputLabel.classList.add("font-weight-bold");
-		this.winInputLabel.setAttribute("for", "winnerName");
-
-		this.winInput = document.createElement("label");
-		this.winInput.classList.add("form-control");
-		this.winInput.setAttribute("id", "winnerName");
-		this.winInput.setAttribute("name", "winnerName");
-		this.winInput.setAttribute("maxlength", "3");
-
-		this.winButton = document.createElement("button");
-		this.winButton.setAttribute("type", "submit");
-
-		this.winForm.appendChild(this.winInputLabel);
-		this.winForm.appendChild(this.winInput);
-		this.winForm.appendChild(this.winButton);
-
-		this.gameElt.removeChild(this.canvas);
-		this.gameElt.appendChild(this.winForm);
-	}*/
 }
 
 //Construit la carte à la fin du chargement de la page

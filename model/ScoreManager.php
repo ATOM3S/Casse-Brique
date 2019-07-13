@@ -16,24 +16,6 @@ class ScoreManager extends Manager
 		return $insertedLines;
 	}
 
-	/*
-		*Obtenir les scores
-		*$rank: classement par meilleur ('best') ou par date ('date')
-		*$number: nombre de score que l'on souhaite ('all' si on les veut tous)
-		*$page: false, pas de pagination, sinon numéro de la page ($number fait office de nombre par page)
-		*$user: false, on récupère tous les scores. Si un nom d'utilisateur est renseigné on récupère les scores de cet utilisateur
-	*/
-	public function getScoresBy($rank, $number, $page, $user)
-	{
-		if ($page == false) {
-			$db = $this->dbConnect();
-			$scores = $db->prepare('SELECT score_user, score, score_date FROM scores LIMIT 0, ?');
-			$scores->bindParam(1, $number, \PDO::PARAM_INT);
-			$scores->execute(array($username));
-			$resultat = $scores->fetch();
-		}
-	}
-
 	// Nombre de score(s) d'un utilisateur
 	public function numberOfScores($username)
 	{
