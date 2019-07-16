@@ -234,7 +234,7 @@ class brickBreaker {
 	        for(var r=0; r<this.brickRowCount; r++) {
 	            var b = this.bricks[c][r];
 	            if (b.status == 1) {
-		            if(this.x > b.x && this.x < b.x+this.brickWidth && this.y > b.y && this.y < b.y+this.brickHeight) {
+		            if(this.x > b.x-this.ballRadius && this.x < b.x+this.brickWidth+this.ballRadius && this.y > b.y-this.ballRadius && this.y < b.y+this.brickHeight+this.ballRadius) {
 		                this.dy = -this.dy;
 		                b.status = 0;
 		                this.brickBreaked++;
