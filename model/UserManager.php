@@ -132,9 +132,9 @@ class UserManager extends Manager
 			$verification = password_hash(date("i:Y--Hm-ds"), PASSWORD_DEFAULT);
 			$db = $this->dbConnect();
 	        $users = $db->prepare('INSERT INTO users(username, email, password, verification) VALUES(?, ?, ?, ?)');
-	        $affectedLines = $users->execute(array($username, $email, password_hash($password, PASSWORD_DEFAULT), $verification));
+	        $affectedLines = $users->execute(array(trim($username), $email, password_hash($password, PASSWORD_DEFAULT), $verification));
 	        if ($affectedLines) {
-	        	$this->sendVerificationMail($username, $email, $verification);
+	        	$this->sendVerificationMail(trim($username), $email, $verification);
 	        }
 
 	        return $affectedLines;
