@@ -61,6 +61,8 @@ class brickBreaker {
 		// Évènements
 		document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
 		document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
+		this.canvas.addEventListener("touchstart", this.tactilTouchStart.bind(this), false);
+		document.addEventListener("touchend", this.tactilTouchEnd.bind(this));
 		//document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false); // controle à la souris
 
 		// Choisir la difficulté
@@ -220,6 +222,22 @@ class brickBreaker {
 	    }
 	}
 
+	// 'Touche' enfoncé tactile
+	tactilTouchStart(e) {
+		if(e.targetTouches[0].clientX > this.canvas.width/2) {
+	        this.rightPressed = true;
+	    }
+	    else if(e.targetTouches[0].clientX < this.canvas.width/2) {
+	        this.leftPressed = true;
+	    }
+	}
+
+	// Touche relaché tactile
+	tactilTouchEnd() {
+		this.rightPressed = false;
+		this.leftPressed = false;
+	}
+
 	// Mouvement de la souris
 	mouseMoveHandler(e) {
 	    var relativeX = e.clientX - this.canvas.offsetLeft;
@@ -241,8 +259,8 @@ class brickBreaker {
 		                this.score = this.score + (100*this.bonus)*this.combo;
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
-	                        alert("YOU WIN, CONGRATULATIONS!");
-	                        document.location.href="index.php?action=afterWin&score=" + this.score;
+	                        alert("VOUS AVEZ GAGNÉ, FÉLICITATIONS!");
+	                        document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 	                    }
 		            }
 	            }
@@ -302,6 +320,12 @@ class brickBreaker {
 	    }
 	}
 
+	encryptScore(score) { 
+		var cryptedScore = btoa(score);
+
+		return cryptedScore;
+	}
+
 	// Dessiner
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -326,8 +350,9 @@ class brickBreaker {
 		    } else {
 			    this.lives--;
 				if(!this.lives) {
+					console.log(this.encryptScore(this.score));
 				    alert("GAME OVER");
-				    document.location.href="index.php?action=afterWin&score=" + this.score;
+				    document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				}
 				else {
 				    this.x = this.canvas.width/2;

@@ -11,8 +11,8 @@ try {
         if ($_GET['action'] == 'brickBreaker') { 
             brickBreaker();
         }
-        elseif ($_GET['action'] == 'afterWin' && isset($_GET['score']) && !empty($_GET['score'])) {
-            afterWin(htmlspecialchars($_GET['score']));
+        elseif ($_GET['action'] == 'sendScore' && isset($_GET['score']) && !empty($_GET['score'])) {
+            sendScore(htmlspecialchars($_GET['score']));
         }
         elseif ($_GET['action'] == 'leaderboard') { 
             leaderboard();
@@ -122,7 +122,7 @@ try {
         }  
     }
     else {
-        brickBreaker();
+        homepage();
     }
 }
 

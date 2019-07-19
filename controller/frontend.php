@@ -3,6 +3,12 @@
 // Chargement des classes
 require_once('model/ScoreManager.php');
 
+// Affiche la page d'accueil
+function homepage()
+{
+    require('view/frontend/homepageView.php');
+}
+
 // Lite tous les articles
 function brickBreaker()
 {
@@ -16,9 +22,9 @@ function showError($error)
 }
 
 // Ajout du score à la bdd
-function afterWin($score)
+function sendScore($score)
 {
-    if (is_numeric($score) && isset($_SESSION['username']) && !empty($_SESSION['username'])) 
+    if (isset($_SESSION['username']) && !empty($_SESSION['username'])) 
     {
         $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
         $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);

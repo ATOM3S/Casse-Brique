@@ -118,16 +118,16 @@ class UserManager extends Manager
 	{
 		if ($this->isUsernameExist($username)) {
 			$_SESSION['redirection'] = 'index.php?action=createAccount';
-			throw new Exception("Ce nom d'utilisateur est déjà utilisé.");
+			throw new \Exception("Ce nom d'utilisateur est déjà utilisé.");
 		} elseif ($this->isEmailExist($email)) {
 			$_SESSION['redirection'] = 'index.php?action=createAccount';
-			throw new Exception("Cette adresse email est déjà associé à un compte.");
-		} elseif (strlen(trim($username)) > 16 || strlen(trim($password)) > 16 ) {
+			throw new \Exception("Cette adresse email est déjà associé à un compte.");
+		} elseif (strlen(trim($username)) > 16 || strlen($password) > 16 ) {
 			$_SESSION['redirection'] = 'index.php?action=createAccount';
-			throw new Exception("Le nom d'utilisateur et ne mot de passe ne doivent pas dépasser 16 charactères.");
-		} elseif (var_dump(filter_var($email, FILTER_VALIDATE_EMAIL)) == false ) {
+			throw new \Exception("Le nom d'utilisateur et ne mot de passe ne doivent pas dépasser 16 charactères.");
+		} elseif (filter_var($email, FILTER_VALIDATE_EMAIL) == false ) {
 			$_SESSION['redirection'] = 'index.php?action=createAccount';
-			throw new Exception("L'adresse email n'est pas valide.");
+			throw new \Exception("L'adresse email n'est pas valide.");
 		} else {
 			$verification = password_hash(date("i:Y--Hm-ds"), PASSWORD_DEFAULT);
 			$db = $this->dbConnect();

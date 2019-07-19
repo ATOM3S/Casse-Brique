@@ -17,6 +17,7 @@ if (isset($scores))
 {
 ?>
 <div class="row justify-content-center pt-4">
+
 	<table class="table col-4">
 	    <thead>
 	        <tr>
@@ -30,6 +31,9 @@ if (isset($scores))
 	$i = 0;
 	while ($data = $scores->fetch())
 	{
+		if ($i == 0) {
+			$firstScore = $data['score'];
+		}
 	    $i++;
 	    ?> 
 	        <tr>
@@ -71,8 +75,9 @@ if (isset($scores))
 }
 ?>
 </p>
-	
-
+<p id="scoreInfo" class="text-center"><?=$firstScore?></p>
+<script src="public/js/ajax.js"></script>
+<script src="public/js/main.js"></script>
 <?php $content = ob_get_clean(); ?>
 
 <?php require(__DIR__ . '/../layouts/template.php'); ?>

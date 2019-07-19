@@ -6,12 +6,26 @@ require_once("model/Manager.php");
 
 class ScoreManager extends Manager
 {
+	private function decryptScore($cryptedScore) {
+        $decryptedScore = base64_decode($cryptedScore);
+
+        return $decryptedScore;
+	}
+
 	// Ajouter un score à la bdd
 	public function addScore($username, $score)
 	{
-		$db = $this->dbConnect();
-		$scores = $db->prepare('INSERT INTO scores(score_user, score, score_date) VALUES(?, ?, NOW())');
-		$insertedLines = $scores->execute(array($username, $score));
+		$score = $this->decryptScore($score);
+		if (is_numeric($score)) 
+		{
+		 	$db = $this->dbConnect();
+			$scores = $db->prepare('INSERT INTO scores(score_user, score, score_date) VALUES(?, ?, NOW())');
+			$insertedLines = $scores->execute(array($username, $score));
+		} 
+		else
+		{
+			$insertedLines = false;
+		}
 
 		return $insertedLines;
 	}

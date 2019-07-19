@@ -7,13 +7,13 @@
 	<?php  
 	// $_SESSION['redirection'] permet de choisir ou rediriger l'utilisateur arpès une erreur
 	if (isset($_SESSION['redirection']) && $_SESSION['redirection'] != '') {
-		?><a href="<?= $_SESSION['redirection'] ?>" class="btn btn-outline-light btn-sm my-1" role="button">Retourner sur la page</a><?php 
+		?><a href="<?= $_SESSION['redirection'] ?>" class="btn btn-light btn-sm my-1" role="button">Retourner sur la page</a><?php 
 		// $_SESSION['redirection'] est ensuite vidé 
 		$_SESSION['redirection'] = '';
 	}
 	else
 	{
-		?><a href="index.php" class="btn btn-outline-light btn-sm my-1" role="button">Retourner à l'accueil</a><?php
+		?><a href="index.php" class="btn btn-light btn-sm my-1" role="button">Retourner à l'accueil</a><?php
 	}
 	?>
 </div>
