@@ -17,15 +17,9 @@ class brickBreaker {
 		// Balle
 		this.x = this.canvas.width/2;
 		this.y = this.canvas.height-30; 
-		//this.ballSpeed = 4;
-		//this.dx = this.ballSpeed;
-		//this.dy = -this.ballSpeed;
-		//this.ballRadius = 10;
 
 		// Paddle
 		this.paddleHeight = this.canvas.width/48;
-		//this.paddleWidth = 75;
-		//this.paddleX = (this.canvas.width-this.paddleWidth)/2;
 		this.rightPressed = false;
 		this.leftPressed = false;
 
@@ -162,7 +156,7 @@ class brickBreaker {
 		this.lives = 2;
 
 		// Bonus
-		this.bonus = 1.25;
+		this.bonus = 1.5;
 
 		// Ajout du canvas dans l'element
 		this.gameElt.appendChild(this.canvas);
@@ -193,7 +187,7 @@ class brickBreaker {
 		this.lives = 1;
 
 		// Bonus
-		this.bonus = 1.5;
+		this.bonus = 2;
 
 		// Ajout du canvas dans l'element
 		this.gameElt.appendChild(this.canvas);
@@ -259,6 +253,8 @@ class brickBreaker {
 		                this.score = this.score + (100*this.bonus)*this.combo;
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
+		                	this.score = this.score +  this.lives*100*this.bonus;
+		                	console.log(this.encryptScore(this.score));
 	                        alert("VOUS AVEZ GAGNÉ, FÉLICITATIONS!");
 	                        document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 	                    }
@@ -341,9 +337,9 @@ class brickBreaker {
 		} else if(this.y + this.dy > this.canvas.height-this.ballRadius) {
 			if(this.x > this.paddleX && this.x < this.paddleX + this.paddleWidth) {
 				if (this.rightPressed) {
-					this.dx = this.dx + this.canvas.width/480;
+					this.dx = this.dx + this.canvas.width/240;
 				} else if (this.leftPressed) {
-					this.dx = this.dx - this.canvas.width/480;
+					this.dx = this.dx - this.canvas.width/240;
 				}
 		        this.dy = -this.dy;
 		        this.combo = 1;
