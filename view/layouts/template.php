@@ -48,9 +48,9 @@
     <body class="bg-light">
         <div class="container">
             <header class="pt-2">
-                <nav class="navbar navbar-expand-lg navbar-light rounded" style="background-color: #e3f2fd;>
-                  <a class="navbar-brand" href="index.php">
-                    <img src="public/images/logo.png" width="60" height="60" alt="">
+                <nav class="navbar navbar-expand-lg navbar-light rounded" style="background-color: #e3f2fd;">
+                  <a class="navbar-brand" href="index.php"> 
+                    <img src="public/images/logo.png" width="60" height="60" alt=""> <a class="navbar-brand" href="index.php"> 
                   </a>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -63,7 +63,7 @@
                       if (isset($_SESSION['isConnect']) && ($_SESSION['isConnect'] == true)) 
                       {
                         ?>
-                        <a class="nav-item nav-link" href="index.php?action=myAccount">mon Compte</a>
+                        <a class="nav-item nav-link" href="index.php?action=myAccount">Mon compte</a>
                         <a class="nav-item nav-link text-danger" href="index.php?action=disconnect">Déconnexion</a>
                         <?php
                       } 
