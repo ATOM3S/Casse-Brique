@@ -4,11 +4,11 @@
 
 <h1 class="text-center my-5"><u>Connexion</u></h1>
 <section class="row align-items-center">
-	<div class="col-3   ">
-		<a class=" btn-block btn-lg btn-primary mt-1 float-right text-center" href="index.php?action=createAccount">Créer un compte</a>
-		<a class=" btn-block btn-lg btn-info mt-1 float-right text-center" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
+	<div class="col-md-3">
+		<a class=" btn-block btn-lg btn-primary mt-1 text-center" href="index.php?action=createAccount">Créer un compte</a>
+		<a class=" btn-block btn-lg btn-info mt-1 text-center" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
 	</div>
-	<form class="col-9 p-4 rounded shadow" action="index.php?action=verifyLogin" method="post">
+	<form class="col-md-9 p-4 rounded shadow" action="index.php?action=verifyLogin" method="post">
 		<div class="form-group">
 		    <label for="login-name" class="font-weight-bold">NOM D'UTILISATEUR :</label>
 		    <input type="text" class="form-control" id="login-name" name="login-name" placeholder="Nom d'utilisateur" required />

@@ -49,7 +49,7 @@ class ScoreManager extends Manager
 		$db = $this->dbConnect();
 		
 		if ($orderBy == 'score') {
-			$scores = $db->prepare('SELECT score, score_date FROM scores WHERE score_user = :user ORDER BY score DESC LIMIT :page, 10');
+			$scores = $db->prepare('SELECT score, DATE_FORMAT(score_date, \'%H:%i:%s %d/%m/%Y\') AS score_date_fr FROM scores WHERE score_user = :user ORDER BY score DESC LIMIT :page, 10');
 		} else {
 			$scores = $db->prepare('SELECT score, score_date FROM scores WHERE score_user = :user ORDER BY score_date DESC LIMIT :page, 10');
 		}
@@ -65,7 +65,7 @@ class ScoreManager extends Manager
 	public function leaderboard()
 	{
 		$db = $this->dbConnect();
-		$scores = $db->query('SELECT score_user, score, score_date FROM scores ORDER BY score DESC LIMIT 0, 10');
+		$scores = $db->query('SELECT score_user, score, DATE_FORMAT(score_date, \'%H:%i:%s %d/%m/%Y\') AS score_date_fr FROM scores ORDER BY score DESC LIMIT 0, 10');
 		
 		return $scores;
 	}

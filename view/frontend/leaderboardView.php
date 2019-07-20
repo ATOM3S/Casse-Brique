@@ -28,7 +28,7 @@ $description = "Leaderboard: Tableau d'affichage des meilleurs scores. Essayez d
                 <th><?=$i?></th>
                 <td><?=$data['score_user']?></td>
                 <td><?=$data['score']?></td>
-                <td><?=$data['score_date']?></td>
+                <td><?=$data['score_date_fr']?></td>
             </tr>
         <?php
     }

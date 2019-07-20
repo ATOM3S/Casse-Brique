@@ -25,7 +25,7 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 			?>
 			<div class="pt-4">
 
-				<table class="table custom-background text-white cbg-grey rounded">
+				<table class="table custom-background text-white cbg-orange rounded">
 				    <thead>
 				        <tr>
 				            <th class="text-center" scope="col">#</th>
@@ -46,7 +46,7 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 				        <tr>
 				            <th class="text-center"><?=(($page-1)*10)+$i?></th>
 				            <td class="text-center"><?=$data['score']?></td>
-				            <td class="text-center"><?=$data['score_date']?></td>
+				            <td class="text-center"><?=$data['score_date_fr']?></td>
 				        </tr>
 				    <?php
 				}
@@ -82,7 +82,9 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 			}
 			?>
 			</p>
-			<p id="scoreInfo" class="text-center"><?=$firstScore?></p>
+			<div class="my-3 mx-1 row text-white custom-background cbg-orange justify-content-center">
+				<i class="col-1 p-1 fas fa-info-circle fa-2x"></i><p id="scoreInfo" class="col-11 text-center"><?=$firstScore?></p>
+			</div>
 		</div>
 	</div>
 </section>
