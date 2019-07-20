@@ -51,7 +51,7 @@ class ScoreManager extends Manager
 		if ($orderBy == 'score') {
 			$scores = $db->prepare('SELECT score, DATE_FORMAT(score_date, \'%H:%i:%s %d/%m/%Y\') AS score_date_fr FROM scores WHERE score_user = :user ORDER BY score DESC LIMIT :page, 10');
 		} else {
-			$scores = $db->prepare('SELECT score, score_date FROM scores WHERE score_user = :user ORDER BY score_date DESC LIMIT :page, 10');
+			$scores = $db->prepare('SELECT score, DATE_FORMAT(score_date, \'%H:%i:%s %d/%m/%Y\') AS score_date_fr FROM scores WHERE score_user = :user ORDER BY score_date DESC LIMIT :page, 10');
 		}
 		
 		$scores->bindParam(':user', $username, \PDO::PARAM_STR);

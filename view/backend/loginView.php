@@ -8,7 +8,7 @@
 		<a class=" btn-block btn-lg btn-primary mt-1 text-center" href="index.php?action=createAccount">Créer un compte</a>
 		<a class=" btn-block btn-lg btn-info mt-1 text-center" href="index.php?action=forgottenPassword">Mot de passe oublié</a>
 	</div>
-	<form class="col-md-9 p-4 rounded shadow" action="index.php?action=verifyLogin" method="post">
+	<form class="col-md-9 p-4" action="index.php?action=verifyLogin" method="post">
 		<div class="form-group">
 		    <label for="login-name" class="font-weight-bold">NOM D'UTILISATEUR :</label>
 		    <input type="text" class="form-control" id="login-name" name="login-name" placeholder="Nom d'utilisateur" required />
