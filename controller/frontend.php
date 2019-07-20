@@ -28,11 +28,11 @@ function sendScore($score)
     {
         $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
         $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
-        header('Location: index.php?action=brickBreaker');
+        echo 'index.php?action=brickBreaker';
     }
     else
     {
-        header('Location: index.php?action=brickBreaker');
+        echo 'index.php?action=brickBreaker';
     }
 }
 

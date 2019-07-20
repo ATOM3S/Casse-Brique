@@ -254,9 +254,10 @@ class brickBreaker {
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
 		                	this.score = this.score +  this.lives*100*this.bonus;
-		                	console.log(this.encryptScore(this.score));
 	                        alert("VOUS AVEZ GAGNÉ, FÉLICITATIONS!");
-	                        document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
+	                        var url = "index.php?action=sendScore&score=" + this.encryptScore(this.score);
+				    		ajaxGet(url, this.redirection);
+	                        //document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 	                    }
 		            }
 	            }
@@ -322,6 +323,10 @@ class brickBreaker {
 		return cryptedScore;
 	}
 
+	redirection(link) {
+		document.location.href = link;
+	}
+
 	// Dessiner
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -346,9 +351,10 @@ class brickBreaker {
 		    } else {
 			    this.lives--;
 				if(!this.lives) {
-					console.log(this.encryptScore(this.score));
 				    alert("GAME OVER");
-				    document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
+				    var url = "index.php?action=sendScore&score=" + this.encryptScore(this.score);
+				    ajaxGet(url, this.redirection);
+				    //document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				}
 				else {
 				    this.x = this.canvas.width/2;
