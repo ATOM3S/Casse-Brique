@@ -4,7 +4,7 @@
 
 <h1 class="text-center my-5"><u>Créer un compte</u></h1>
 
-<form class="p-4 rounded" action="index.php?action=addAccount" method="post">
+<form class="p-4 rounded shadow" action="index.php?action=addAccount" method="post">
 	<div class="form-group">
 	    <label for="username" class="font-weight-bold">NOM D'UTILISATEUR :</label>
 	    <input type="text" class="form-control" id="username" name="username" placeholder="Nom d'utilisateur" required />

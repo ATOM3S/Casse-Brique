@@ -45,10 +45,10 @@
         <![endif]-->
     </head>
         
-    <body class="bg-light">
+    <body class="custom-background cbg-orange">
         <div class="container">
             <header class="pt-2">
-                <nav class="navbar navbar-expand-lg navbar-light rounded" style="background-color: #e3f2fd;">
+                <nav class="navbar navbar-expand-lg navbar-light custom-background cbg-white text-uppercase font-weight-bold">
                   <a class="navbar-brand" href="index.php"> 
                     <img src="public/images/logo.png" width="60" height="60" alt=""> <a class="navbar-brand" href="index.php"> 
                   </a>

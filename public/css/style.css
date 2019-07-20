@@ -8,3 +8,62 @@ canvas {
 	display: block; 
 	margin: 0 auto; 
 }
+
+.custom-background {
+	
+	background-image: url('../../public/images/dark-brick-wall.png');
+}
+
+.cbg-orange {
+	background-color: #cc8800;
+}
+
+.cbg-white {
+	background-color: white;
+}
+
+.cbg-grey {
+	background-color: grey;
+}
+
+.cbg-1 {
+	background-color: cyan;
+}
+
+.cbg-2 {
+	background-color: red;
+}
+
+.cbg-3 {
+	background-color: orange;
+}
+
+.cbg-4 {
+	background-color: yellow;
+}
+
+.cbg-5 {
+	background-color: green;
+}
+
+.cbg-6 {
+	background-color: pink;
+}
+
+.cbg-7 {
+	background-color: grey;
+}
+
+.cbg-8 {
+	background-color: purple;
+}
+
+.cbg-9 {
+	background-color: maroon;
+}
+
+.cbg-10 {
+	background-color: white;
+}
+
+/*#cc8800, #B22222*/
