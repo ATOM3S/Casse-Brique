@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?= $title ?></title>
+        <title>
+        <?php 
+        if (isset($title)): 
+          echo $title;
+        else:  
+          echo 'Casse-Brique';
+        endif;
+        ?>
+        </title>
 
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content=
         <?php 
-        if (isset($description)) {
+        if (isset($description)):
           echo $description;
-        } else {
+        else:
           echo "Bienvenue sur le Casse-Brique ! Créez vous un compte et essayez de battre les meilleurs scores !";
-        }
+        endif;
         ?>
         >
 
@@ -60,31 +68,21 @@
                     <div class="navbar-nav ml-auto">
                       <a class="nav-item nav-link" href="index.php?action=brickBreaker">Casse-Brique</a>
                       <a class="nav-item nav-link" href="index.php?action=leaderboard">Leaderboard</a>
-                      <?php 
-                      if (isset($_SESSION['isConnect']) && ($_SESSION['isConnect'] == true)) 
-                      {
-                        ?>
-                        <a class="nav-item nav-link" href="index.php?action=myAccount">Mon compte</a>
-                        <a class="nav-item nav-link text-danger" href="index.php?action=disconnect">Déconnexion</a>
-                        <?php
-                      } 
-                      else 
-                      {
-                        ?>
-                        <a class="nav-item nav-link text-success" href="index.php?action=login">Connexion</a>
-                        <?php
-                      }
-                      ?>
+                      <?php if (isset($_SESSION['isConnect']) && ($_SESSION['isConnect'] == true)): ?>
+                      <a class="nav-item nav-link" href="index.php?action=myAccount">Mon compte</a>
+                      <a class="nav-item nav-link text-danger" href="index.php?action=disconnect">Déconnexion</a>
+                      <?php else: ?>
+                      <a class="nav-item nav-link text-success" href="index.php?action=login">Connexion</a>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </nav>
             </header>
 
             <?php 
-            if (isset($content))
-            {
+            if (isset($content)):
               echo $content; 
-            }
+            endif;
             ?>
 
         </div>

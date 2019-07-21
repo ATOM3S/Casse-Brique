@@ -2,7 +2,7 @@
 
 <?php ob_start(); ?>
 
-<h1 class="text-center my-5"><u>Connexion</u></h1>
+<h1 class="text-center my-5 text-uppercase"><u>Connexion</u></h1>
 <section class="row align-items-center">
 	<div class="col-md-3">
 		<a class=" btn-block btn-lg btn-primary mt-1 text-center" href="index.php?action=createAccount">Créer un compte</a>
@@ -21,7 +21,6 @@
 			<button type="submit" class="btn btn-success mt-1 float-right">Connexion</button>
 		</div>
 	</form>
-	
 </section>
 
 <?php $content = ob_get_clean(); ?>

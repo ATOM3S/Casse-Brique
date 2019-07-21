@@ -3,7 +3,6 @@
 <?php ob_start(); ?>
 
 <h1 class="text-center my-5"><u>Changer de mot de passe</u></h1>
-
 <form class="p-4 rounded" action="index.php?action=resetPassword&id=<?=$_GET['id']?>&verif=<?=$_GET['verif']?>" method="post">
 	<div class="form-group">
 	    <label for="new-password" class="font-weight-bold">NOUVEAU MOT DE PASSE :</label>

@@ -19,12 +19,8 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 			<h2 class="text-center my-5 text-uppercase">Mes scores</h2>
 			<p class="text-center font-weight-bold">Trier par: <p/>
 			<p class="text-center font-weight-bold"><a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=date"> Date</a> / <a href="index.php?action=myAccount&page=<?=htmlspecialchars($_GET['page'])?>&orderBy=score">Score</a></p>
-			<?php 
-			if (isset($scores)) 
-			{
-			?>
+			<?php if (isset($scores)): ?>
 			<div class="pt-4">
-
 				<table class="table custom-background text-white cbg-orange rounded">
 				    <thead>
 				        <tr>
@@ -36,11 +32,10 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 				    <tbody>
 				<?php
 				$i = 0;
-				while ($data = $scores->fetch())
-				{
-					if ($i == 0) {
+				while ($data = $scores->fetch()):
+					if ($i == 0):
 						$firstScore = $data['score'];
-					}
+					endif;
 				    $i++;
 				    ?> 
 				        <tr>
@@ -49,7 +44,7 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 				            <td class="text-center"><?=$data['score_date_fr']?></td>
 				        </tr>
 				    <?php
-				}
+				endwhile;
 				$scores->closeCursor();
 				?>
 				    </tbody>
@@ -57,34 +52,32 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 			</div>
 			<p class="row justify-content-center">
 				<?php 
-				if (isset($_GET['orderBy']) && !empty($_GET['orderBy'])) 
-				{
+				if (isset($_GET['orderBy']) && !empty($_GET['orderBy'])):
 					$newOrderBy = '&orderBy='.htmlspecialchars($_GET['orderBy']);
-				} else {
+				else:
 					$newOrderBy = '';
-				}
-				if (isset($numberOfScores) && $numberOfScores>10) {
-					if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page']>1) {
+				endif;
+				if (isset($numberOfScores) && $numberOfScores>10):
+					if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page']>1):
 						$prevPage = htmlspecialchars($_GET['page'])-1;
 						?>
 						<a class="text-uppercase font-weight-bold" href="index.php?action=myAccount&page=<?=$prevPage?><?=$newOrderBy?>"><- Page précédente |</a>
 						<?php
-					}
+					endif;
 
-					if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page'] < ($numberOfScores/10)) 
-					{
+					if (isset($_GET['page']) && !empty($_GET['page']) && is_numeric($_GET['page']) &&  $_GET['page'] < ($numberOfScores/10)):
 						$nextPage = htmlspecialchars($_GET['page']) + 1; 
 						?>
 						<a class="text-uppercase font-weight-bold" href="index.php?action=myAccount&page=<?=$nextPage?><?=$newOrderBy?>">| Page suivante -></a>
 						<?php
-					}
-				}
-			}
+					endif;
+				endif;
+			endif;
 			?>
 			</p>
 			<?php if (isset($firstScore)): ?>
-			<div class="my-3 mx-1 row text-white custom-background cbg-orange justify-content-center">
-				<i class="col-1 p-1 fas fa-info-circle fa-2x"></i><p id="scoreInfo" class="col-11 text-center"><?=$firstScore?></p>
+			<div class="my-4 mx-1 row text-white custom-background cbg-orange justify-content-center">
+				<i class="col-1 p-1 fas fa-info-circle fa-2x"></i><p id="scoreInfo" class="pt-2 col-11 text-center"><?=$firstScore?></p>
 			</div>
 			<?php endif; ?>
 		</div>

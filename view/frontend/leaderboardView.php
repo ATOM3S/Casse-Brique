@@ -6,7 +6,6 @@ $description = "Leaderboard: Tableau d'affichage des meilleurs scores. Essayez d
 <?php ob_start(); ?>
 <section class="">
     <h1 class="text-center mt-5 text-uppercase"><u>Leaderboard</u></h1>
-
     <div class="row justify-content-center pt-4 ">
     <table class="table col-6 text-center text-white custom-background cbg-grey shadow">
         <thead>
@@ -18,22 +17,21 @@ $description = "Leaderboard: Tableau d'affichage des meilleurs scores. Essayez d
             </tr>
         </thead>
         <tbody>
-    <?php
-    $i = 0;
-    while ($data = $scores->fetch())
-    {
-        $i++;
-        ?> 
+        <?php
+        $i = 0;
+        while ($data = $scores->fetch()):
+            $i++;
+            ?> 
             <tr class="">
                 <th><?=$i?></th>
                 <td><?=$data['score_user']?></td>
                 <td><?=$data['score']?></td>
                 <td><?=$data['score_date_fr']?></td>
             </tr>
-        <?php
-    }
-    $scores->closeCursor();
-    ?>
+            <?php
+        endwhile;
+        $scores->closeCursor();
+        ?>
         </tbody>
     </table>
     </div>
