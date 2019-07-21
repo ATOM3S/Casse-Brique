@@ -250,10 +250,10 @@ class brickBreaker {
 		                this.dy = -this.dy;
 		                b.status = 0;
 		                this.brickBreaked++;
-		                this.score = this.score + (100*this.bonus)*this.combo;
+		                this.score = this.score + (10*this.bonus)*this.combo;
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
-		                	this.score = this.score +  this.lives*100*this.bonus;
+		                	this.score = this.score +  this.lives*10*this.bonus;
 	                        alert("VOUS AVEZ GAGNÉ, FÉLICITATIONS!");
 	                        var url = "index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				    		ajaxGet(url, this.redirection);
