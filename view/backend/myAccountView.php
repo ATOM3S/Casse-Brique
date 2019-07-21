@@ -82,9 +82,11 @@ $description = "Mon compte Casse-Brique. Changez votre mot de passe ou accédez 
 			}
 			?>
 			</p>
+			<?php if (isset($firstScore)): ?>
 			<div class="my-3 mx-1 row text-white custom-background cbg-orange justify-content-center">
 				<i class="col-1 p-1 fas fa-info-circle fa-2x"></i><p id="scoreInfo" class="col-11 text-center"><?=$firstScore?></p>
 			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>
