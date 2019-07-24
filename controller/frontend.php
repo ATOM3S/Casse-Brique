@@ -25,25 +25,19 @@ function showError($error)
 function sendScore($score)
 {
     // Vérification AJAX
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-        $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
-        $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
-        echo 'index.php?action=brickBreaker';
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+            $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
+            $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
+            echo 'index.php?action=brickBreaker';
+        }
+        else {
+            echo 'index.php?action=brickBreaker';
+        }  
     }
-
     else {
-        echo 'index.php?action=brickBreaker';
+        header('location: index.php?action=brickBreaker');
     }
-    /*if (isset($_SESSION['username']) && !empty($_SESSION['username'])) 
-    {
-        $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
-        $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
-        echo 'index.php?action=brickBreaker';
-    }
-    else
-    {
-        echo 'index.php?action=brickBreaker';
-    }*/
 }
 
 // Tableau des meilleurs scores

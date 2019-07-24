@@ -57,7 +57,6 @@ class brickBreaker {
 		document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
 		this.canvas.addEventListener("touchstart", this.tactilTouchStart.bind(this), false);
 		document.addEventListener("touchend", this.tactilTouchEnd.bind(this));
-		//document.addEventListener("mousemove", this.mouseMoveHandler.bind(this), false); // controle à la souris
 
 		// Choisir la difficulté
 		this.chooseDifficulty();
@@ -232,14 +231,6 @@ class brickBreaker {
 		this.leftPressed = false;
 	}
 
-	// Mouvement de la souris
-	mouseMoveHandler(e) {
-	    var relativeX = e.clientX - this.canvas.offsetLeft;
-	    if(relativeX > (0 + this.paddleWidth/2)  && relativeX < (this.canvas.width - this.paddleWidth/2)) {
-	        this.paddleX = relativeX - this.paddleWidth/2;
-	    }
-	}
-
 	// Détection des collisions
 	collisionDetection() {
 	    for(var c=0; c<this.brickColumnCount; c++) {
@@ -250,14 +241,13 @@ class brickBreaker {
 		                this.dy = -this.dy;
 		                b.status = 0;
 		                this.brickBreaked++;
-		                this.score = this.score + (10*this.bonus)*this.combo;
+		                this.score = this.score + 10*this.bonus*this.combo;
 		                this.combo++;
 		                if(this.brickBreaked == this.brickRowCount*this.brickColumnCount) {
 		                	this.score = this.score +  this.lives*10*this.bonus;
 	                        alert("VOUS AVEZ GAGNÉ, FÉLICITATIONS!");
 	                        var url = "index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				    		ajaxGet(url, this.redirection);
-	                        //document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 	                    }
 		            }
 	            }
@@ -317,12 +307,14 @@ class brickBreaker {
 	    }
 	}
 
+	// encrypter le score
 	encryptScore(score) { 
 		var cryptedScore = btoa(score);
 
 		return cryptedScore;
 	}
 
+	// rediriger le joueur vers un lien 
 	redirection(link) {
 		document.location.href = link;
 	}
