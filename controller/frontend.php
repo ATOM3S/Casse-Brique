@@ -32,7 +32,7 @@ function sendScore($score)
             echo 'index.php?action=brickBreaker';
         }
         else {
-            echo 'index.php?action=brickBreaker';
+            echo('index.php?action=brickBreaker');
         }  
     }
     else {
