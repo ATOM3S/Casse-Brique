@@ -9,7 +9,7 @@ function homepage()
     require('view/frontend/homepageView.php');
 }
 
-// Lite tous les articles
+// Affiche le casse-brique
 function brickBreaker()
 {
     require('view/frontend/brickBreakerView.php');
@@ -24,7 +24,17 @@ function showError($error)
 // Ajout du score à la bdd
 function sendScore($score)
 {
-    if (isset($_SESSION['username']) && !empty($_SESSION['username'])) 
+    // Vérification AJAX
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+        $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
+        $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
+        echo 'index.php?action=brickBreaker';
+    }
+
+    else {
+        echo 'index.php?action=brickBreaker';
+    }
+    /*if (isset($_SESSION['username']) && !empty($_SESSION['username'])) 
     {
         $scoreManager = new \OpenClassrooms\BrickBreaker\Model\ScoreManager();
         $insertedLines = $scoreManager->addScore($_SESSION['username'], $score);
@@ -33,7 +43,7 @@ function sendScore($score)
     else
     {
         echo 'index.php?action=brickBreaker';
-    }
+    }*/
 }
 
 // Tableau des meilleurs scores

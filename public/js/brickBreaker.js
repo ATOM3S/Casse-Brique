@@ -193,7 +193,7 @@ class brickBreaker {
 		this.gameElt.appendChild(this.canvas);
 
 		// Lancement de la fonction dessiner.
-		this.draw();
+		setTimeout(this.draw.bind(this), 500);
 	}
 
 	// Touche enfoncé
@@ -354,7 +354,6 @@ class brickBreaker {
 				    alert("GAME OVER");
 				    var url = "index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				    ajaxGet(url, this.redirection);
-				    //document.location.href="index.php?action=sendScore&score=" + this.encryptScore(this.score);
 				}
 				else {
 				    this.x = this.canvas.width/2;

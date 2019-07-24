@@ -3,8 +3,10 @@
 function ajaxGet(url, callback) {
 	// Création d'une requête HTTP
 	var req = new XMLHttpRequest();
+
 	// La requête est asynchrone lorsque le 3ème paramètre vaut true ou est absent
 	req.open("GET", url);
+    req.setRequestHeader("X-Requested-With",'xmlhttprequest');
 	// Gestion de l'évènement indiquant la fin de la requête 
 	req.addEventListener("load", function () {
 		if (req.status >= 200 && req.status < 400) { //Le serveur a réussi à traiter la requête
