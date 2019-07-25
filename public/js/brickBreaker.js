@@ -307,14 +307,14 @@ class brickBreaker {
 	    }
 	}
 
-	// encrypter le score
+	// Encrypter le score
 	encryptScore(score) { 
 		var cryptedScore = btoa(score);
 
 		return cryptedScore;
 	}
 
-	// rediriger le joueur vers un lien 
+	// Rediriger le joueur vers un lien 
 	redirection(link) {
 		document.location.href = link;
 	}

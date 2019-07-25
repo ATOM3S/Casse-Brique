@@ -169,7 +169,6 @@ class UserManager extends Manager
 	}
 
 	// Permet la connexion si le nom d'utilisateur et le mot de passe correspondent
-	// Créer une varaible session true si l'utilisateur est administrateur
 	public function login($username, $password)
 	{
 		$db = $this->dbConnect();
@@ -180,7 +179,11 @@ class UserManager extends Manager
 		$isPasswordCorrect = password_verify($password, $resultat['password']);
 		$isConnect = false;
 
-		if (!$resultat || !$resultat['authenticated'])
+		if (!$resultat['authenticated']) {
+			$_SESSION['redirection'] = 'index.php?action=login';
+            throw new \Exception("Ce compte n'a pas été authentifié.");
+		}
+		elseif (!$resultat)
 		{
 			$_SESSION['redirection'] = 'index.php?action=login';
             throw new \Exception('Mauvais identifiant ou mot de passe !');

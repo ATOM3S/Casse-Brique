@@ -6,6 +6,7 @@ require_once("model/Manager.php");
 
 class ScoreManager extends Manager
 {
+	// Décrypter le score
 	private function decryptScore($cryptedScore) {
         $decryptedScore = base64_decode($cryptedScore);
 
